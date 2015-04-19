@@ -4,19 +4,115 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace NewsNotificationCenter
 {
     public partial class LoginForm : Form
     {
+        private enum AppStatus
+        {
+            LoggedOut,
+            LoggingIn,
+            LoggedIn
+        }
+
+        private AppStatus _currentStatus;
+        private LoginUser _loginUser;
+        private NewsNotifier _newsNotifier;
+        private const int _balloonTipTimeOut = 2000;
+
         public LoginForm()
         {
             InitializeComponent();
+
+            _loginUser = new LoginUser();
+            _loginUser.LoginStatusChanged += OnLoginStatusChanged;
+            _newsNotifier = new NewsNotifier(_loginUser);
+
+            _currentStatus = AppStatus.LoggedOut;
+        }
+
+        private void OnLoginStatusChanged(object sender, EventArgs e)
+        {
+            if (_loginUser.IsLoggedIn)
+            {
+                SwitchStatus(AppStatus.LoggedIn);
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(_loginUser.Error))
+                {
+                    MessageBox.Show(_loginUser.Error);
+                }
+                else
+                {
+                    MessageBox.Show("登录失败，请检查用户名和密码是否正确");
+                }
+                SwitchStatus(AppStatus.LoggedOut);
+            }
+        }
+
+        private void SwitchStatus(AppStatus status)
+        {
+            if (status == AppStatus.LoggingIn)
+            {
+                this.lblStatus.Text = "正在登录";
+                this.lblStatus.Update();
+
+                this.txtUsername.Enabled = false;
+                this.txtPassword.Enabled = false;
+                this.btnLogin.Enabled = false;
+
+                this.loginMenuItem.Visible = false;
+                this.logoutMenuItem.Visible = false;
+            }
+            else if(status == AppStatus.LoggedIn)
+            {
+                this.txtUsername.Enabled = false;
+                this.txtPassword.Enabled = false;
+                this.btnLogin.Enabled = false;
+                Hide();
+
+                this.notifyIcon.BalloonTipText = "登录成功！";
+                this.notifyIcon.ShowBalloonTip(_balloonTipTimeOut);
+
+                this.loginMenuItem.Visible = false;
+                this.logoutMenuItem.Visible = true;
+
+                _newsNotifier.Start();
+            }
+            else
+            {
+                // Log out
+                _newsNotifier.Stop();
+                this.lblStatus.Text = "请先登录";
+                this.txtPassword.Text = String.Empty;
+                this.txtUsername.Enabled = true;
+                this.txtPassword.Enabled = true;
+                this.btnLogin.Enabled = true;
+                this.Enabled = true;
+                Show();
+
+                if (_currentStatus == AppStatus.LoggedIn)
+                {
+                    this.notifyIcon.BalloonTipText = "您已退出！";
+                    this.notifyIcon.ShowBalloonTip(_balloonTipTimeOut);
+                }
+
+                this.loginMenuItem.Visible = true;
+                this.logoutMenuItem.Visible = false;
+            }
+
+            _currentStatus = status;
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
+            if (_currentStatus == AppStatus.LoggedIn)
+                return;
+
             Show();
             WindowState = FormWindowState.Normal;
         }
@@ -40,17 +136,29 @@ namespace NewsNotificationCenter
             Close();
         }
 
+        private void logoutMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchStatus(AppStatus.LoggedOut);
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            NotificationForm notifyForm = new NotificationForm();
-            notifyForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notifyForm.Width,
-                                             Screen.PrimaryScreen.WorkingArea.Height - notifyForm.Height);
-            string title = "子牙循环经济技术开发区加快项目建设速写";
-            notifyForm.linkTitle.Text = title;
-            notifyForm.linkTitle.Links.Add(0, title.Length, "http://www.ziya.gov.cn/zhengwu/yuanquxinwen/1759-zi-ya-xun-huan-jing-ji-ji-zhu-kai-fa-qu-jia-kuai");
-            notifyForm.linkTitle.Left = (this.ClientSize.Width - notifyForm.linkTitle.Width) / 2;
-            notifyForm.rtbDescription.Text = "随着3月3日至7日静海县重点工作检查推动活动的开展，连日来，全县各部门和单位以只争朝夕的精神大干快 上，跑资金、谈项目，重点工程建设如火如荼，静海…";
-            notifyForm.ShowForm();
+            if (String.IsNullOrEmpty(txtUsername.Text))
+            {
+                MessageBox.Show("请输入用户名");
+                return;
+            }
+            if (String.IsNullOrEmpty(txtPassword.Text))
+            {
+                MessageBox.Show("请输入密码");
+                return;
+            }
+
+            SwitchStatus(AppStatus.LoggingIn);
+
+            _loginUser.Name = txtUsername.Text;
+            _loginUser.Password = txtPassword.Text;
+            _loginUser.Login();
         }
     }
 }
