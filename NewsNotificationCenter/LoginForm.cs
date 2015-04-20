@@ -30,8 +30,21 @@ namespace NewsNotificationCenter
             _loginUser = new LoginUser();
             _loginUser.LoginStatusChanged += OnLoginStatusChanged;
             _newsNotifier = new NewsNotifier(_loginUser);
+            _newsNotifier.NewsArrived += OnNewsArrivied;
 
             _currentStatus = AppStatus.LoggedOut;
+        }
+
+        private void OnNewsArrivied(object sender, NewsNotifier.NewsNotifierEventArgs e)
+        {
+            foreach (var message in e.Messages)
+            {
+                this.Invoke(new Action<NewsNotifier.Message>(Notify), message);
+            }
+            foreach (var post in e.Posts)
+            {
+                this.Invoke(new Action<NewsNotifier.Post>(Notify), post);
+            }
         }
 
         private void OnLoginStatusChanged(object sender, EventArgs e)
@@ -159,6 +172,33 @@ namespace NewsNotificationCenter
             _loginUser.Name = txtUsername.Text;
             _loginUser.Password = txtPassword.Text;
             _loginUser.Login();
+        }
+
+        private void Notify(NewsNotifier.Message message)
+        {
+            NotificationForm notifyForm = new NotificationForm();
+            notifyForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notifyForm.Width,
+                                             Screen.PrimaryScreen.WorkingArea.Height - notifyForm.Height);
+            notifyForm.linkTitle.Text = "新的消息";
+            notifyForm.rtbDescription.Text = message.Content;
+            notifyForm.ShowForm();
+        }
+
+        // Sample post:
+        // 子牙循环经济技术开发区加快项目建设速写
+        // 随着3月3日至7日静海县重点工作检查推动活动的开展，连日来，全县各部门和单位以只争朝夕的精神大干快 上，跑资金、谈项目，重点工程建设如火如荼，静海…
+        // http://www.ziya.gov.cn/zhengwu/yuanquxinwen/1759-zi-ya-xun-huan-jing-ji-ji-zhu-kai-fa-qu-jia-kuai
+        private void Notify(NewsNotifier.Post post)
+        {
+            NotificationForm notifyForm = new NotificationForm();
+            notifyForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notifyForm.Width,
+                                             Screen.PrimaryScreen.WorkingArea.Height - notifyForm.Height);
+
+            notifyForm.linkTitle.Text = post.Title;
+            notifyForm.linkTitle.Links.Add(0, post.Title.Length, post.URL);
+            notifyForm.linkTitle.Left = (notifyForm.ClientSize.Width - notifyForm.linkTitle.Width) / 2;
+            notifyForm.rtbDescription.Text = post.Content;
+            notifyForm.ShowForm();
         }
     }
 }

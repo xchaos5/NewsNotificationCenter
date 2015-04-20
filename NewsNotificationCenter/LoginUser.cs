@@ -91,25 +91,25 @@ namespace NewsNotificationCenter
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var resultString = streamReader.ReadToEnd();
-                    JsonTextReader reader = new JsonTextReader(new StringReader(resultString));
-                    bool isLoggedIn = false;
-                    while (reader.Read())
+                    using (JsonTextReader reader = new JsonTextReader(new StringReader(resultString)))
                     {
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "id")
+                        bool isLoggedIn = false;
+                        while (reader.Read())
                         {
-                            ID = reader.ReadAsInt32() ?? 0;
+                            if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "id")
+                            {
+                                ID = reader.ReadAsInt32() ?? 0;
+                            }
+
+                            if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "token")
+                            {
+                                Token = reader.ReadAsString();
+                                isLoggedIn = true;
+                            }
                         }
-
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "token")
-                        {
-                            Token = reader.ReadAsString();
-                            isLoggedIn = true;
-                        }
-
-
+                        IsLoggedIn = isLoggedIn;
+                        Error = String.Empty;
                     }
-                    IsLoggedIn = isLoggedIn;
-                    Error = String.Empty;
                 }
             }
             catch
