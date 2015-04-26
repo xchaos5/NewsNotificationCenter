@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -11,76 +10,76 @@ using Newtonsoft.Json;
 
 namespace NewsNotificationCenter
 {
+    public class Notification
+    {
+        public int ID;
+        public string Content;
+        public bool Notified;
+    }
+
+    public class Message : Notification
+    {
+        public Message(string msg)
+        {
+            using (JsonTextReader reader = new JsonTextReader(new StringReader(msg)))
+            {
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notification_id")
+                    {
+                        ID = reader.ReadAsInt32() ?? 0;
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "content")
+                    {
+                        Content = reader.ReadAsString();
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notified")
+                    {
+                        bool.TryParse(reader.ReadAsString(), out Notified);
+                    }
+                }
+            }
+        }
+    }
+
+    public class Post : Notification
+    {
+        public string Title;
+        public string URL;
+
+        public Post(string post)
+        {
+            using (JsonTextReader reader = new JsonTextReader(new StringReader(post)))
+            {
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notification_id")
+                    {
+                        ID = reader.ReadAsInt32() ?? 0;
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "title")
+                    {
+                        Title = reader.ReadAsString();
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "content")
+                    {
+                        Content = reader.ReadAsString();
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "url")
+                    {
+                        URL = reader.ReadAsString();
+                    }
+                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notified")
+                    {
+                        bool.TryParse(reader.ReadAsString(), out Notified);
+                    }
+                }
+            }
+        }
+    }
+
     public class NewsNotifier
     {
-        public class Message
-        {
-            public int ID;
-            public string Content;
-            public bool Notified;
-
-            public Message(string msg)
-            {
-                using (JsonTextReader reader = new JsonTextReader(new StringReader(msg)))
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notification_id")
-                        {
-                            ID = reader.ReadAsInt32() ?? 0;
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "content")
-                        {
-                            Content = reader.ReadAsString();
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notified")
-                        {
-                            bool.TryParse(reader.ReadAsString(), out Notified);
-                        }
-                    }
-                }
-            }
-        }
-
-        public class Post
-        {
-            public int ID;
-            public string Title;
-            public string Content;
-            public string URL;
-            public bool Notified;
-
-            public Post(string post)
-            {
-                using (JsonTextReader reader = new JsonTextReader(new StringReader(post)))
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notification_id")
-                        {
-                            ID = reader.ReadAsInt32() ?? 0;
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "title")
-                        {
-                            Title = reader.ReadAsString();
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "content")
-                        {
-                            Content = reader.ReadAsString();
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "url")
-                        {
-                            URL = reader.ReadAsString();
-                        }
-                        if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "notified")
-                        {
-                            bool.TryParse(reader.ReadAsString(), out Notified);
-                        }
-                    }
-                }
-            }
-        }
-
         public class NewsNotifierEventArgs: EventArgs
         {
             public List<Message> Messages
@@ -103,9 +102,8 @@ namespace NewsNotificationCenter
 
         public EventHandler<NewsNotifierEventArgs> NewsArrived;
 
-        private const string _baseURL = "http://db.ziya.gov.cn/api/notifications";
         private const int _intervalInSeconds = 1;
-        private LoginUser _loginUser;
+        private static LoginUser _loginUser;
         private Timer _timer;
         Regex _messagesReg = new Regex("messages\"\\s*:\\s*\\[(?<message>.*?)\\]");
         Regex _postsReg = new Regex("posts\"\\s*:\\s*\\[(?<post>.*?)\\]");
@@ -118,41 +116,14 @@ namespace NewsNotificationCenter
             _timer.Tick += Timer_Tick;
         }
 
-        private string GetTimeStamp()
-        {
-            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalSeconds).ToString();
-        }
-
-        private string GetQueryString()
-        {
-            string queryString = "?";
-            string timestamp = GetTimeStamp();
-            queryString += "user_id=" + _loginUser.ID;
-
-            byte[] result = Encoding.Default.GetBytes(_loginUser.Token + timestamp);
-            MD5 md5 = new MD5CryptoServiceProvider();  
-            byte[] output = md5.ComputeHash(result);
-			string md5Str = BitConverter.ToString(output).Replace("-","").ToLower();
-            queryString += "&sign=" + md5Str;
-            queryString += "&timestamp=" + timestamp;
-
-            return queryString;
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             // TODO: remove
             _timer.Stop();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_baseURL + GetQueryString());
-            request.Method = "GET";
-            request.UserAgent = "Ziya Windows Client";
-            request.ContentType = "application/x-www-form-urlencoded";
-
             try
             {
-                request.BeginGetResponse(new AsyncCallback(ReadCallback), request);
+                NotificationHelper.GetNotifications(_loginUser, new AsyncCallback(ReadCallback));
             }
             catch (WebException)
             {
@@ -166,10 +137,10 @@ namespace NewsNotificationCenter
 
         private void ReadCallback(IAsyncResult asynchronousResult)
         {
+            var request = (HttpWebRequest)asynchronousResult.AsyncState;
+            var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
             try
             {
-                var request = (HttpWebRequest)asynchronousResult.AsyncState;
-                var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var resultString = streamReader.ReadToEnd();
@@ -187,7 +158,7 @@ namespace NewsNotificationCenter
             }
             finally
             {
-                
+                response.Close();
             }
         }
 
@@ -202,7 +173,8 @@ namespace NewsNotificationCenter
                 {
                     // iterate each message string
                     string messageStr = "{" + m.Replace("{", "").Replace("}", "") + "}";
-                    messages.Add(new Message(messageStr));
+                    Message message = new Message(messageStr);
+                    messages.Add(message);
                 }
             }
             return messages;
@@ -219,7 +191,8 @@ namespace NewsNotificationCenter
                 {
                     // iterate each post string
                     string postStr = "{" + p.Replace("{", "").Replace("}", "") + "}";
-                    posts.Add(new Post(postStr));
+                    Post post = new Post(postStr);
+                    posts.Add(post);
                 }
             }
             return posts;
@@ -233,6 +206,11 @@ namespace NewsNotificationCenter
         public void Stop()
         {
             _timer.Stop();
+        }
+
+        public static void SetNotified(Notification notification)
+        {
+            NotificationHelper.SetNotified(_loginUser, notification);
         }
     }
 }

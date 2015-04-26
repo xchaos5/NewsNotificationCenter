@@ -39,11 +39,11 @@ namespace NewsNotificationCenter
         {
             foreach (var message in e.Messages)
             {
-                this.Invoke(new Action<NewsNotifier.Message>(Notify), message);
+                this.Invoke(new Action<Message>(Notify), message);
             }
             foreach (var post in e.Posts)
             {
-                this.Invoke(new Action<NewsNotifier.Post>(Notify), post);
+                this.Invoke(new Action<Post>(Notify), post);
             }
         }
 
@@ -174,30 +174,9 @@ namespace NewsNotificationCenter
             _loginUser.Login();
         }
 
-        private void Notify(NewsNotifier.Message message)
+        private void Notify(Notification notification)
         {
-            NotificationForm notifyForm = new NotificationForm();
-            notifyForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notifyForm.Width,
-                                             Screen.PrimaryScreen.WorkingArea.Height - notifyForm.Height);
-            notifyForm.linkTitle.Text = "新的消息";
-            notifyForm.rtbDescription.Text = message.Content;
-            notifyForm.ShowForm();
-        }
-
-        // Sample post:
-        // 子牙循环经济技术开发区加快项目建设速写
-        // 随着3月3日至7日静海县重点工作检查推动活动的开展，连日来，全县各部门和单位以只争朝夕的精神大干快 上，跑资金、谈项目，重点工程建设如火如荼，静海…
-        // http://www.ziya.gov.cn/zhengwu/yuanquxinwen/1759-zi-ya-xun-huan-jing-ji-ji-zhu-kai-fa-qu-jia-kuai
-        private void Notify(NewsNotifier.Post post)
-        {
-            NotificationForm notifyForm = new NotificationForm();
-            notifyForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notifyForm.Width,
-                                             Screen.PrimaryScreen.WorkingArea.Height - notifyForm.Height);
-
-            notifyForm.linkTitle.Text = post.Title;
-            notifyForm.linkTitle.Links.Add(0, post.Title.Length, post.URL);
-            notifyForm.linkTitle.Left = (notifyForm.ClientSize.Width - notifyForm.linkTitle.Width) / 2;
-            notifyForm.rtbDescription.Text = post.Content;
+            NotificationForm notifyForm = new NotificationForm(notification);
             notifyForm.ShowForm();
         }
     }
