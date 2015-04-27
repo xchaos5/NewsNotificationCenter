@@ -102,7 +102,7 @@ namespace NewsNotificationCenter
 
         public EventHandler<NewsNotifierEventArgs> NewsArrived;
 
-        private const int _intervalInSeconds = 1;
+        private int _intervalInSeconds = ConfigSettings.GetInstance().SyncIntervalInSeconds;
         private static LoginUser _loginUser;
         private Timer _timer;
         Regex _messagesReg = new Regex("messages\"\\s*:\\s*\\[(?<message>.*?)\\]");
@@ -118,20 +118,22 @@ namespace NewsNotificationCenter
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // TODO: remove
-            _timer.Stop();
+            GetNotificationsAsync();
+        }
 
+        private void GetNotificationsAsync()
+        {
             try
             {
                 NotificationHelper.GetNotifications(_loginUser, new AsyncCallback(ReadCallback));
             }
             catch (WebException)
             {
-                
+
             }
             catch
             {
-                
+
             }
         }
 
@@ -200,6 +202,7 @@ namespace NewsNotificationCenter
 
         public void Start()
         {
+            GetNotificationsAsync();
             _timer.Start();
         }
 

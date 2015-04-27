@@ -15,8 +15,10 @@ namespace NewsNotificationCenter
         private Timer _closeTimer = new Timer();
         private int _currentState, _currentTop;
         private Notification _notification;
-        private const string MessageTitle = "「您有一条短消息」";
-        private const string MessageTargetURL = "http://news.ziya.gov.cn/";
+        private string MessageTitle = ConfigSettings.GetInstance().MessageTitle;
+        private string MessageTargetURL = ConfigSettings.GetInstance().MessageTargetURL;
+
+        public delegate void InvokeDelegate(Notification notification);
 
         public NotificationForm(Notification notification)
         {
@@ -49,7 +51,7 @@ namespace NewsNotificationCenter
             _popupTimer.Enabled = false;
             _closeTimer.Enabled = false;
             _popupTimer.Interval = 10;
-            _closeTimer.Interval = 60 * 60 * 1000;
+            _closeTimer.Interval = ConfigSettings.GetInstance().AutoCloseTimeInSeconds * 1000;
             _popupTimer.Tick += _popupTimer_Tick;
             _closeTimer.Tick += _closeTimer_Tick;
 
@@ -67,8 +69,6 @@ namespace NewsNotificationCenter
 
         private void _popupTimer_Tick(object sender, EventArgs e)
         {
-            _popupTimer.Interval = 10;
-
             Rectangle WorkAreaRectangle = System.Windows.Forms.Screen.GetWorkingArea(this);
             if (_currentState == 1)
             {
@@ -105,7 +105,7 @@ namespace NewsNotificationCenter
             }
         }
 
-        void _closeTimer_Tick(object sender, EventArgs e)
+        private void _closeTimer_Tick(object sender, EventArgs e)
         {
             _currentState = 3;
             _popupTimer.Enabled = true;
@@ -113,22 +113,20 @@ namespace NewsNotificationCenter
             _closeTimer.Dispose();
         }
 
-        private void linkMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://www.ziya.gov.cn");
-        }
-
         private void linkTitle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            _popupTimer.Enabled = false;
+            _closeTimer.Enabled = false;
             if (e.Link.LinkData != null)
             {
                 System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
             }
+            this.Close();
         }
 
         private void NotificationForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            NewsNotifier.SetNotified(_notification);
+            LoginForm.GetInstance().BeginInvoke(new InvokeDelegate(NewsNotifier.SetNotified), _notification);
         }
     }
 }

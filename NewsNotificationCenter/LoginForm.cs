@@ -22,8 +22,9 @@ namespace NewsNotificationCenter
         private LoginUser _loginUser;
         private NewsNotifier _newsNotifier;
         private const int _balloonTipTimeOut = 2000;
+        private static LoginForm _instance;
 
-        public LoginForm()
+        private LoginForm()
         {
             InitializeComponent();
 
@@ -33,6 +34,15 @@ namespace NewsNotificationCenter
             _newsNotifier.NewsArrived += OnNewsArrivied;
 
             _currentStatus = AppStatus.LoggedOut;
+        }
+
+        public static LoginForm GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new LoginForm();
+            }
+            return _instance;
         }
 
         private void OnNewsArrivied(object sender, NewsNotifier.NewsNotifierEventArgs e)
@@ -124,7 +134,10 @@ namespace NewsNotificationCenter
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
             if (_currentStatus == AppStatus.LoggedIn)
+            {
+                System.Diagnostics.Process.Start("http://www.ziya.gov.cn");
                 return;
+            }
 
             Show();
             WindowState = FormWindowState.Normal;

@@ -10,7 +10,7 @@ namespace NewsNotificationCenter
 {
     public class LoginUser
     {
-        private const string _loginURL = "http://db.ziya.gov.cn/api/login";
+        private string _loginURL = ConfigSettings.GetInstance().LoginURL;
 
         public int ID
         {
@@ -56,6 +56,7 @@ namespace NewsNotificationCenter
                 return;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_loginURL);
+            request.KeepAlive = false;
             request.Method = "POST";
             request.UserAgent = "Ziya Windows Client";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -84,10 +85,10 @@ namespace NewsNotificationCenter
 
         private void ReadCallback(IAsyncResult asynchronousResult)
         {
+            var request = (HttpWebRequest)asynchronousResult.AsyncState;
+            var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
             try
             {
-                var request = (HttpWebRequest)asynchronousResult.AsyncState;
-                var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var resultString = streamReader.ReadToEnd();
@@ -118,6 +119,7 @@ namespace NewsNotificationCenter
             }
             finally
             {
+                response.Close();
                 LoginStatusChanged(this, null);
             }
         }

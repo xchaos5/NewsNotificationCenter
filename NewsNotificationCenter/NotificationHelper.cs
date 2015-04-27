@@ -9,7 +9,7 @@ namespace NewsNotificationCenter
 {
     public class NotificationHelper
     {
-        private const string _baseURL = "http://db.ziya.gov.cn/api/notifications";
+        private static string _baseURL = ConfigSettings.GetInstance().NotificationURL;
 
         public static string GetTimeStamp()
         {

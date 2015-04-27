@@ -12,9 +12,10 @@ namespace NewsNotificationCenter
         [STAThread]
         static void Main()
         {
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "app.config"); 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(LoginForm.GetInstance());
         }
     }
 }
