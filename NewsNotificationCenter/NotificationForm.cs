@@ -18,6 +18,12 @@ namespace NewsNotificationCenter
         private string MessageTitle = ConfigSettings.GetInstance().MessageTitle;
         private string MessageTargetURL = ConfigSettings.GetInstance().MessageTargetURL;
 
+        public bool ShouldSetNotified
+        {
+            get;
+            set;
+        }
+
         public delegate void InvokeDelegate(Notification notification);
 
         public NotificationForm(Notification notification)
@@ -25,6 +31,7 @@ namespace NewsNotificationCenter
             InitializeComponent();
 
             _notification = notification;
+            ShouldSetNotified = true;
         }
 
         public void ShowForm()
@@ -124,9 +131,12 @@ namespace NewsNotificationCenter
             this.Close();
         }
 
-        private void NotificationForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void NotificationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            LoginForm.GetInstance().BeginInvoke(new InvokeDelegate(NewsNotifier.SetNotified), _notification);
+            if (ShouldSetNotified)
+            {
+                LoginForm.GetInstance().BeginInvoke(new InvokeDelegate(NewsNotifier.SetNotified), _notification);
+            }
         }
     }
 }

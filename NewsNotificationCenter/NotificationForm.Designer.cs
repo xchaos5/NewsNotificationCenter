@@ -57,7 +57,7 @@
             this.ShowInTaskbar = false;
             this.Text = "通知";
             this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NotificationForm_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NotificationForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

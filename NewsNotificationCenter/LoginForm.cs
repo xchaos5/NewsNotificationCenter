@@ -126,6 +126,20 @@ namespace NewsNotificationCenter
 
                 this.loginMenuItem.Visible = true;
                 this.logoutMenuItem.Visible = false;
+
+                List<Form> openForms = new List<Form>();
+                foreach (Form form in Application.OpenForms)
+                    openForms.Add(form);
+
+                foreach (Form form in openForms)
+                {
+                    if (form is NotificationForm)
+                    {
+                        NotificationForm notificationForm = form as NotificationForm;
+                        notificationForm.ShouldSetNotified = false;
+                        notificationForm.Close();
+                    }
+                }
             }
 
             _currentStatus = status;
