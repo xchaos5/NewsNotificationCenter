@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,11 +19,17 @@ namespace NewsNotificationCenter
             LoggedIn
         }
 
+        private static LoginForm _instance;
+
         private AppStatus _currentStatus;
         private LoginUser _loginUser;
         private NewsNotifier _newsNotifier;
-        private const int _balloonTipTimeOut = 2000;
-        private static LoginForm _instance;
+        private List<int> _notifiedList = new List<int>();
+
+        private const int BalloonTipTimeOut = 2000;
+        private const string UsernameDisplayText = "用户名";
+        private const string PasswordDisplayText = "密码";
+        private Color DisplayTextColor = Color.FromArgb(224, 224, 224);
 
         private LoginForm()
         {
@@ -32,6 +39,10 @@ namespace NewsNotificationCenter
             _loginUser.LoginStatusChanged += OnLoginStatusChanged;
             _newsNotifier = new NewsNotifier(_loginUser);
             _newsNotifier.NewsArrived += OnNewsArrivied;
+
+            btnLogin.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            btnLogin.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 255, 255, 255);
+            btnLogin.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 255, 255, 255);
 
             _currentStatus = AppStatus.LoggedOut;
         }
@@ -49,11 +60,19 @@ namespace NewsNotificationCenter
         {
             foreach (var message in e.Messages)
             {
-                this.Invoke(new Action<Message>(Notify), message);
+                if (!_notifiedList.Contains(message.ID))
+                {
+                    _notifiedList.Add(message.ID);
+                    this.Invoke(new Action<MyMessage>(Notify), message);
+                }
             }
             foreach (var post in e.Posts)
             {
-                this.Invoke(new Action<Post>(Notify), post);
+                if (!_notifiedList.Contains(post.ID))
+                {
+                    _notifiedList.Add(post.ID);
+                    this.Invoke(new Action<Post>(Notify), post);
+                }
             }
         }
 
@@ -81,9 +100,6 @@ namespace NewsNotificationCenter
         {
             if (status == AppStatus.LoggingIn)
             {
-                this.lblStatus.Text = "正在登录";
-                this.lblStatus.Update();
-
                 this.txtUsername.Enabled = false;
                 this.txtPassword.Enabled = false;
                 this.btnLogin.Enabled = false;
@@ -91,7 +107,7 @@ namespace NewsNotificationCenter
                 this.loginMenuItem.Visible = false;
                 this.logoutMenuItem.Visible = false;
             }
-            else if(status == AppStatus.LoggedIn)
+            else if (status == AppStatus.LoggedIn)
             {
                 this.txtUsername.Enabled = false;
                 this.txtPassword.Enabled = false;
@@ -99,7 +115,7 @@ namespace NewsNotificationCenter
                 Hide();
 
                 this.notifyIcon.BalloonTipText = "登录成功！";
-                this.notifyIcon.ShowBalloonTip(_balloonTipTimeOut);
+                this.notifyIcon.ShowBalloonTip(BalloonTipTimeOut);
 
                 this.loginMenuItem.Visible = false;
                 this.logoutMenuItem.Visible = true;
@@ -110,8 +126,9 @@ namespace NewsNotificationCenter
             {
                 // Log out
                 _newsNotifier.Stop();
-                this.lblStatus.Text = "请先登录";
-                this.txtPassword.Text = String.Empty;
+                this.txtPassword.Text = "密码";
+                this.txtPassword.ForeColor = DisplayTextColor;
+                this.txtPassword.PasswordChar = '\0';
                 this.txtUsername.Enabled = true;
                 this.txtPassword.Enabled = true;
                 this.btnLogin.Enabled = true;
@@ -121,7 +138,7 @@ namespace NewsNotificationCenter
                 if (_currentStatus == AppStatus.LoggedIn)
                 {
                     this.notifyIcon.BalloonTipText = "您已退出！";
-                    this.notifyIcon.ShowBalloonTip(_balloonTipTimeOut);
+                    this.notifyIcon.ShowBalloonTip(BalloonTipTimeOut);
                 }
 
                 this.loginMenuItem.Visible = true;
@@ -183,12 +200,12 @@ namespace NewsNotificationCenter
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(txtUsername.Text))
+            if (String.IsNullOrEmpty(txtUsername.Text) || txtUsername.Text == UsernameDisplayText)
             {
                 MessageBox.Show("请输入用户名");
                 return;
             }
-            if (String.IsNullOrEmpty(txtPassword.Text))
+            if (String.IsNullOrEmpty(txtPassword.Text) || txtPassword.Text == PasswordDisplayText)
             {
                 MessageBox.Show("请输入密码");
                 return;
@@ -205,6 +222,49 @@ namespace NewsNotificationCenter
         {
             NotificationForm notifyForm = new NotificationForm(notification);
             notifyForm.ShowForm();
+        }
+
+        private void LoginForm_Activated(object sender, EventArgs e)
+        {
+            lblTitle.Focus();
+        }
+
+        private void txtUsername_Enter(object sender, EventArgs e)
+        {
+            if (txtUsername.Text == UsernameDisplayText)
+            {
+                txtUsername.Text = String.Empty;
+                txtUsername.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtUsername_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txtUsername.Text))
+            {
+                txtUsername.Text = UsernameDisplayText;
+                txtUsername.ForeColor = DisplayTextColor;
+            }
+        }
+
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            if (txtPassword.Text == PasswordDisplayText)
+            {
+                txtPassword.Text = String.Empty;
+                txtPassword.ForeColor = Color.Black;
+                txtPassword.PasswordChar = '*';
+            }
+        }
+
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txtPassword.Text))
+            {
+                txtPassword.Text = PasswordDisplayText;
+                txtPassword.ForeColor = DisplayTextColor;
+                txtPassword.PasswordChar = '\0';
+            }
         }
     }
 }

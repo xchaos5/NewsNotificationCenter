@@ -41,9 +41,9 @@ namespace NewsNotificationCenter
             // 随着3月3日至7日静海县重点工作检查推动活动的开展，连日来，全县各部门和单位以只争朝夕的精神大干快 上，跑资金、谈项目，重点工程建设如火如荼，静海…
             // http://www.ziya.gov.cn/zhengwu/yuanquxinwen/1759-zi-ya-xun-huan-jing-ji-ji-zhu-kai-fa-qu-jia-kuai
             this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
-            if (_notification is Message)
+            if (_notification is MyMessage)
             {
-                Message message = _notification as Message;
+                MyMessage message = _notification as MyMessage;
                 this.linkTitle.Text = MessageTitle;
                 this.linkTitle.Links.Add(0, MessageTitle.Length, MessageTargetURL);
             }

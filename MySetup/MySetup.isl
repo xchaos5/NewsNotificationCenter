@@ -1141,11 +1141,12 @@
 		<row><td>DATABASEDIR</td><td>ISYourDataBaseDir</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>DIRECTORY</td><td>JIANSHU</td><td>ZIYANO~1|Ziya Notification Center</td><td/><td>0</td><td/></row>
 		<row><td>DIRECTORY1</td><td>JIANSHU</td><td>子牙新闻通知系统</td><td/><td>0</td><td/></row>
+		<row><td>DIRECTORY2</td><td>JIANSHU</td><td>子牙信息发布系统</td><td/><td>0</td><td/></row>
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
-		<row><td>INSTALLDIR</td><td>DIRECTORY1</td><td>.</td><td/><td>0</td><td/></row>
+		<row><td>INSTALLDIR</td><td>DIRECTORY2</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
 		<row><td>ISMyProductDir</td><td>ISMyCompanyDir</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
@@ -1175,7 +1176,6 @@
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
 		<row><td>jianshu</td><td>ProgramMenuFolder</td><td>Jianshu</td><td/><td>1</td><td/></row>
-		<row><td>product_name</td><td>jianshu</td><td>子牙新~1|子牙新闻通知系统</td><td/><td>1</td><td/></row>
 	</table>
 
 	<table name="DrLocator">
@@ -2653,7 +2653,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>-500982380</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>312704501</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION35</td><td>2052</td><td>Microsoft .NET Framework 3.5 needs to be installed for this installation to continue.</td><td>0</td><td/><td>-501013100</td></row>
@@ -3468,7 +3468,7 @@
 		<row><td>IDS_SETUPEXE_EXPIRE_MSG</td><td>2052</td><td>本安装程序的使用期到 %s 结束。安装程序现在将退出。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>2052</td><td>本安装程序内建有 InstallShield 的评估版，只能用 setup.exe 文件启动。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>子牙新闻通知系统</td><td>0</td><td/><td>-501021068</td></row>
-		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>2052</td><td>Ziya Notification Center</td><td>0</td><td/><td>-501013100</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>2052</td><td>子牙信~1|子牙信息发布系统</td><td>0</td><td/><td>312727061</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>2052</td><td>从以下服务器列表中选择要连接的数据库服务器。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>2052</td><td>从以下的编录名称列表中，选择您希望将其作为目标的数据库编录。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>2052</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-501013100</td></row>
@@ -3758,10 +3758,14 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>ID_STRING1</td><td>2052</td><td/><td>0</td><td/><td>-501013100</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>http://www.Jianshu.com</td><td>0</td><td/><td>-500982380</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>http://www.Jianshu.com</td><td>0</td><td/><td>312704501</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Jianshu</td><td>0</td><td/><td>-500982380</td></row>
-		<row><td>ID_STRING3</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>-501013100</td></row>
+		<row><td>ID_STRING3</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>312704501</td></row>
 		<row><td>ID_STRING4</td><td>2052</td><td>LAUNCH~1.EXE|Launch NewsNotificationCenter.exe</td><td>0</td><td/><td>-501013100</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>NEWSHO~1|NewShortcut2</td><td>0</td><td/><td>312682037</td></row>
+		<row><td>ID_STRING5</td><td>2052</td><td>子牙信~1|子牙信息发布系统</td><td>0</td><td/><td>312690229</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>NEWSHO~1|NewShortcut3</td><td>0</td><td/><td>312694325</td></row>
+		<row><td>ID_STRING6</td><td>2052</td><td>Uninstall</td><td>0</td><td/><td>312694325</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>2052</td><td>系统将不安装此功能。</td><td>0</td><td/><td>-501013100</td></row>
 	</table>
 
@@ -3870,7 +3874,8 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\NewsNotificationCenter\ziya_favicon.ico</td><td>0</td></row>
-		<row><td>NewsNotificationCe_13F3965565FE4E6E828C8CD4C2A85B21.exe</td><td/><td>C:\Users\Chao Xiang\Documents\GitHub\NewsNotificationCenter\NewsNotificationCenter\bin\Release\NewsNotificationCenter.exe</td><td>0</td></row>
+		<row><td>NewShortcut2_A2570CA54E374B36971080736D054476.exe</td><td/><td>C:\Users\Chao Xiang\Documents\GitHub\NewsNotificationCenter\NewsNotificationCenter\bin\Release\NewsNotificationCenter.exe</td><td>0</td></row>
+		<row><td>NewShortcut3_ECDC4D102B234AB0ADDB8B1650CD5472.exe</td><td/><td>C:\Program Files (x86)\InstallShield\2013LE\Redist\Language Independent\OS Independent\uninstall.ico</td><td>0</td></row>
 		<row><td>NewsNotificationCe_6334CA2ADBB54451819F03C4A5B36C8E.exe</td><td/><td>C:\Users\Chao Xiang\Documents\GitHub\NewsNotificationCenter\NewsNotificationCenter\bin\Release\NewsNotificationCenter.exe</td><td>0</td></row>
 	</table>
 
@@ -4004,7 +4009,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{B15752B5-E655-47DC-A02C-16006E9EE246}</td></row>
 		<row><td>ISUSSignature</td><td>{D35F9EC7-A0D3-40DB-A7C7-F8DBE9A83F17}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewRelease,viewProject,viewSystemSearch,viewSupportFiles,viewISToday,viewAppV,viewObjects,viewRealSetupDesign,viewSetupDesign,viewSetupTypes,viewDependencies</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewRelease,viewProject,viewSystemSearch,viewSupportFiles,viewISToday,viewAppV,viewObjects,viewRealSetupDesign,viewSetupDesign,viewSetupTypes,viewDependencies,viewShortcuts</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4381,7 +4386,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]NewsNotificationCenter.exe</td><td/></row>
 		<row><td>ProductCode</td><td>{BE8F8EFA-912C-4AD2-944A-EC019B91232D}</td><td/></row>
-		<row><td>ProductName</td><td>子牙新闻通知系统</td><td/></row>
+		<row><td>ProductName</td><td>子牙信息发布系统</td><td/></row>
 		<row><td>ProductVersion</td><td>1.00.0000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
@@ -4461,7 +4466,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="i2">InstallMode</col>
 		<row><td>FileKey1</td><td>NewsNotificationCenter.exe</td><td/><td>jianshu</td><td>2</td></row>
 		<row><td>FileKey2</td><td>NewsNotificationCenter.exe</td><td/><td>product_name</td><td>2</td></row>
-		<row><td>NewsNotificationCenter.exe</td><td>NewsNotificationCenter.exe</td><td/><td>product_name</td><td>2</td></row>
+		<row><td>NewShortcut2</td><td>NewsNotificationCenter.exe</td><td/><td>jianshu</td><td>2</td></row>
+		<row><td>NewShortcut3</td><td>ISX_DEFAULTCOMPONENT</td><td/><td>jianshu</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4547,7 +4553,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>NewsNotificationCenter.exe</td><td>product_name</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>NewsNotificationCenter.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>NewsNotificationCe_13F3965565FE4E6E828C8CD4C2A85B21.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut2</td><td>jianshu</td><td>##ID_STRING5##</td><td>NewsNotificationCenter.exe</td><td>[INSTALLDIR]NewsNotificationCenter.exe</td><td/><td/><td/><td>NewShortcut2_A2570CA54E374B36971080736D054476.exe</td><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut3</td><td>jianshu</td><td>##ID_STRING6##</td><td>ISX_DEFAULTCOMPONENT</td><td>[SystemFolder]MsiExec.exe</td><td>/x [ProductCode]</td><td/><td/><td>NewShortcut3_ECDC4D102B234AB0ADDB8B1650CD5472.exe</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>NewsNotificationCenter.exe1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>NewsNotificationCenter.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>NewsNotificationCe_6334CA2ADBB54451819F03C4A5B36C8E.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 

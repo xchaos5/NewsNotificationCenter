@@ -17,9 +17,9 @@ namespace NewsNotificationCenter
         public bool Notified;
     }
 
-    public class Message : Notification
+    public class MyMessage : Notification
     {
-        public Message(string msg)
+        public MyMessage(string msg)
         {
             using (JsonTextReader reader = new JsonTextReader(new StringReader(msg)))
             {
@@ -82,7 +82,7 @@ namespace NewsNotificationCenter
     {
         public class NewsNotifierEventArgs: EventArgs
         {
-            public List<Message> Messages
+            public List<MyMessage> Messages
             {
                 get;
                 private set;
@@ -93,7 +93,7 @@ namespace NewsNotificationCenter
                 private set;
             }
 
-            public NewsNotifierEventArgs(List<Message> messages, List<Post> posts)
+            public NewsNotifierEventArgs(List<MyMessage> messages, List<Post> posts)
             {
                 Messages = messages;
                 Posts = posts;
@@ -147,7 +147,7 @@ namespace NewsNotificationCenter
                 {
                     var resultString = streamReader.ReadToEnd();
 
-                    List<Message> messages = GetMessages(resultString);
+                    List<MyMessage> messages = GetMessages(resultString);
                     List<Post> posts = GetPosts(resultString);
 
                     NewsNotifierEventArgs e = new NewsNotifierEventArgs(messages, posts);
@@ -164,9 +164,9 @@ namespace NewsNotificationCenter
             }
         }
 
-        private List<Message> GetMessages(string result)
+        private List<MyMessage> GetMessages(string result)
         {
-            List<Message> messages = new List<Message>();
+            List<MyMessage> messages = new List<MyMessage>();
             MatchCollection matches = _messagesReg.Matches(result);
             if (matches.Count > 0)
             {
@@ -175,7 +175,7 @@ namespace NewsNotificationCenter
                 {
                     // iterate each message string
                     string messageStr = "{" + m.Replace("{", "").Replace("}", "") + "}";
-                    Message message = new Message(messageStr);
+                    MyMessage message = new MyMessage(messageStr);
                     messages.Add(message);
                 }
             }

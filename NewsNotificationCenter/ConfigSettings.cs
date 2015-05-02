@@ -21,7 +21,7 @@ namespace NewsNotificationCenter
                 _instance._loginURL = ConfigurationManager.AppSettings["LoginURL"] ?? "http://db.ziya.gov.cn/api/login";
                 _instance._notificationURL = ConfigurationManager.AppSettings["NotificationURL"] ?? "http://db.ziya.gov.cn/api/notifications";
 
-                int syncIntervalInSeconds = 120;
+                int syncIntervalInSeconds = 10;
                 if (ConfigurationManager.AppSettings["SyncIntervalInSeconds"] != null)
                 {
                     Int32.TryParse(ConfigurationManager.AppSettings["SyncIntervalInSeconds"], out syncIntervalInSeconds);
