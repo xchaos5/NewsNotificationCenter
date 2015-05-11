@@ -166,11 +166,12 @@ namespace NewsNotificationCenter
         {
             if (_currentStatus == AppStatus.LoggedIn)
             {
-                System.Diagnostics.Process.Start("http://www.ziya.gov.cn");
+                System.Diagnostics.Process.Start(ConfigSettings.GetInstance().MessageTargetURL);
                 return;
             }
 
             Show();
+            TopMost = true;
             WindowState = FormWindowState.Normal;
         }
 
@@ -265,6 +266,21 @@ namespace NewsNotificationCenter
                 txtPassword.ForeColor = DisplayTextColor;
                 txtPassword.PasswordChar = '\0';
             }
+        }
+
+        private void homePageMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.ziya.gov.cn");
+        }
+
+        private void newsPageMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://news.ziya.gov.cn");
+        }
+
+        private void reportPageMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://report.ziya.gov.cn");
         }
     }
 }

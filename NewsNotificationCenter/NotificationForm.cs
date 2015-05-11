@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -51,7 +52,11 @@ namespace NewsNotificationCenter
             {
                 Post post = _notification as Post;
                 this.linkTitle.Text = post.Title;
-                this.linkTitle.Links.Add(0, post.Title.Length, post.URL);
+                if (post.Title != null)
+                {
+                    this.linkTitle.Links.Add(0, post.Title.Length, post.URL ?? ConfigSettings.GetInstance().MessageTargetURL);
+                }
+                this.linkLabelNew.Links.Add(0, this.linkLabelNew.Text.Length, post.URL ?? ConfigSettings.GetInstance().MessageTargetURL);
             }
             this.linkTitle.Left = (this.ClientSize.Width - this.linkTitle.Width) / 2;
 
@@ -76,39 +81,47 @@ namespace NewsNotificationCenter
 
         private void _popupTimer_Tick(object sender, EventArgs e)
         {
-            Rectangle WorkAreaRectangle = System.Windows.Forms.Screen.GetWorkingArea(this);
-            if (_currentState == 1)
+            try
             {
-                if (_currentTop < this.Height)
+                Rectangle WorkAreaRectangle = System.Windows.Forms.Screen.GetWorkingArea(this);
+                if (_currentState == 1)
                 {
-                    _currentTop += Convert.ToInt32(this.Height / 10);
-                    if (_currentTop > this.Height)
+                    if (_currentTop < this.Height)
                     {
-                        _currentTop = this.Height;
+                        _currentTop += Convert.ToInt32(this.Height / 10);
+                        if (_currentTop > this.Height)
+                        {
+                            _currentTop = this.Height;
+                        }
+                        this.SetBounds(WorkAreaRectangle.Width - this.Width, WorkAreaRectangle.Height - _currentTop, this.Width, this.Height);
                     }
-                    this.SetBounds(WorkAreaRectangle.Width - this.Width, WorkAreaRectangle.Height - _currentTop, this.Width, this.Height);
+                    else
+                    {
+                        _currentState = 2;
+                        _popupTimer.Enabled = false;
+                        _closeTimer.Enabled = true;
+                    }
                 }
-                else
+                if (_currentState == 3)
                 {
-                    _currentState = 2;
-                    _popupTimer.Enabled = false;
-                    _closeTimer.Enabled = true;
+                    if (_currentTop > 0)
+                    {
+                        _currentTop -= Convert.ToInt32(this.Height / 10);
+                        this.SetBounds(WorkAreaRectangle.Width - this.Width, WorkAreaRectangle.Height - _currentTop, this.Width, this.Height);
+                    }
+                    else
+                    {
+                        _popupTimer.Enabled = false;
+                        //_popupTimer.Dispose();
+                        this.Close();
+                        //this.Dispose();
+                    }
                 }
             }
-            if (_currentState == 3)
+            catch (Exception ex)
             {
-                if (_currentTop > 0)
-                {
-                    _currentTop -= Convert.ToInt32(this.Height / 10);
-                    this.SetBounds(WorkAreaRectangle.Width - this.Width, WorkAreaRectangle.Height - _currentTop, this.Width, this.Height);
-                }
-                else
-                {
-                    _popupTimer.Enabled = false;
-                    _popupTimer.Dispose();
-                    this.Close();
-                    this.Dispose();
-                }
+                // In rare cases, this Tick callback will be called even after NotificationForm is closed (disposed).
+                Debug.WriteLine("NotificationForm::_popupTimer_Tick, Exception, " + ex.Message, "Error");
             }
         }
 
@@ -122,12 +135,21 @@ namespace NewsNotificationCenter
 
         private void linkTitle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (e.Link.LinkData != null)
+                OpenLinkAndClose(e.Link.LinkData.ToString());
+        }
+
+        private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (e.Link.LinkData != null)
+                OpenLinkAndClose(e.Link.LinkData.ToString());
+        }
+
+        private void OpenLinkAndClose(string url)
+        {
             _popupTimer.Enabled = false;
             _closeTimer.Enabled = false;
-            if (e.Link.LinkData != null)
-            {
-                System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-            }
+            System.Diagnostics.Process.Start(url);
             this.Close();
         }
 

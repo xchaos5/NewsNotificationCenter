@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace NewsNotificationCenter
 {
@@ -125,15 +126,12 @@ namespace NewsNotificationCenter
         {
             try
             {
+                Debug.WriteLine("NewsNotifier::GetNotificationsAsync, calling GetNotifications", "Info");
                 NotificationHelper.GetNotifications(_loginUser, new AsyncCallback(ReadCallback));
             }
-            catch (WebException)
+            catch (Exception e)
             {
-
-            }
-            catch
-            {
-
+                Debug.WriteLine("NewsNotifier::GetNotificationsAsync, Exception, " + e.Message, "Error");
             }
         }
 
@@ -153,10 +151,11 @@ namespace NewsNotificationCenter
                     NewsNotifierEventArgs e = new NewsNotifierEventArgs(messages, posts);
                     NewsArrived(this, e);
                 }
+                Debug.WriteLine("NewsNotifier::ReadCallback, completed successfully", "Info");
             }
-            catch
+            catch (Exception e)
             {
-                
+                Debug.WriteLine("NewsNotifier::ReadCallback, Exception, " + e.Message, "Error");
             }
             finally
             {

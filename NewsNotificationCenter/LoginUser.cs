@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace NewsNotificationCenter
 {
@@ -69,16 +70,19 @@ namespace NewsNotificationCenter
                     sw.Write(postData);
                 }
 
+                Debug.WriteLine("LoginUser::Login, calling BeginGetResponse", "Info");
                 request.BeginGetResponse(new AsyncCallback(ReadCallback), request);
             }
-            catch (WebException)
+            catch (WebException we)
             {
                 Error = "网络错误，请检查网络是否已连接";
+                Debug.WriteLine("LoginUser::Login, WebException, " + we.Message, "Error");
                 LoginStatusChanged(this, null);
             }
-            catch
+            catch (Exception e)
             {
                 Error = "发送请求时发生了异常";
+                Debug.WriteLine("LoginUser::Login, Exception, " + e.Message, "Error");
                 LoginStatusChanged(this, null);
             }
         }
@@ -112,10 +116,12 @@ namespace NewsNotificationCenter
                         Error = String.Empty;
                     }
                 }
+                Debug.WriteLine("LoginUser::ReadCallback, completed successfully", "Info");
             }
-            catch
+            catch (Exception e)
             {
                 Error = "获取服务器反馈时发生了异常";
+                Debug.WriteLine("LoginUser::ReadCallback, Exception, " + e.Message, "Error");
             }
             finally
             {

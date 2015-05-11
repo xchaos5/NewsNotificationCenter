@@ -42,6 +42,9 @@
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.homePageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newsPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.panel2.SuspendLayout();
@@ -102,22 +105,25 @@
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginMenuItem,
+            this.homePageMenuItem,
+            this.newsPageMenuItem,
+            this.reportPageMenuItem,
             this.logoutMenuItem,
             this.closeMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(101, 70);
+            this.contextMenuStrip.Size = new System.Drawing.Size(205, 158);
             // 
             // loginMenuItem
             // 
             this.loginMenuItem.Name = "loginMenuItem";
-            this.loginMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loginMenuItem.Size = new System.Drawing.Size(204, 22);
             this.loginMenuItem.Text = "登录";
             this.loginMenuItem.Click += new System.EventHandler(this.loginMenuItem_Click);
             // 
             // logoutMenuItem
             // 
             this.logoutMenuItem.Name = "logoutMenuItem";
-            this.logoutMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.logoutMenuItem.Size = new System.Drawing.Size(204, 22);
             this.logoutMenuItem.Text = "注销";
             this.logoutMenuItem.Visible = false;
             this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
@@ -125,7 +131,7 @@
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(204, 22);
             this.closeMenuItem.Text = "退出";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -165,6 +171,30 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(187, 25);
             this.panel2.TabIndex = 8;
+            // 
+            // homePageMenuItem
+            // 
+            this.homePageMenuItem.Name = "homePageMenuItem";
+            this.homePageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.homePageMenuItem.Text = "登录子牙官方网站";
+            this.homePageMenuItem.ToolTipText = "www.ziya.gov.cn";
+            this.homePageMenuItem.Click += new System.EventHandler(this.homePageMenuItem_Click);
+            // 
+            // newsPageMenuItem
+            // 
+            this.newsPageMenuItem.Name = "newsPageMenuItem";
+            this.newsPageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.newsPageMenuItem.Text = "登录子牙信息系统";
+            this.newsPageMenuItem.ToolTipText = "news.ziya.gov.cn";
+            this.newsPageMenuItem.Click += new System.EventHandler(this.newsPageMenuItem_Click);
+            // 
+            // reportPageMenuItem
+            // 
+            this.reportPageMenuItem.Name = "reportPageMenuItem";
+            this.reportPageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.reportPageMenuItem.Text = "登录子牙网上填报系统";
+            this.reportPageMenuItem.ToolTipText = "report.ziya.gov.cn";
+            this.reportPageMenuItem.Click += new System.EventHandler(this.reportPageMenuItem_Click);
             // 
             // LoginForm
             // 
@@ -209,6 +239,9 @@
         private System.Windows.Forms.PictureBox pbIcon;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem homePageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newsPageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportPageMenuItem;
     }
 }
 

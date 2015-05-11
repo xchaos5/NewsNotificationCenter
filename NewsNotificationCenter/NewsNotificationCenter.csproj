@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JianshuTraceListener.cs" />
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>

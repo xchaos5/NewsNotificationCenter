@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationForm));
             this.linkTitle = new System.Windows.Forms.LinkLabel();
-            this.labelNew = new System.Windows.Forms.Label();
+            this.linkLabelNew = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // linkTitle
@@ -48,23 +48,27 @@
             this.linkTitle.Text = "标题标题标题标题标题标题";
             this.linkTitle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTitle_LinkClicked);
             // 
-            // labelNew
+            // linkLabelNew
             // 
-            this.labelNew.AutoSize = true;
-            this.labelNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelNew.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(175)))), ((int)(((byte)(88)))));
-            this.labelNew.Location = new System.Drawing.Point(75, 36);
-            this.labelNew.Name = "labelNew";
-            this.labelNew.Size = new System.Drawing.Size(79, 13);
-            this.labelNew.TabIndex = 2;
-            this.labelNew.Text = "1条新通知：";
+            this.linkLabelNew.AutoSize = true;
+            this.linkLabelNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.linkLabelNew.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(175)))), ((int)(((byte)(88)))));
+            this.linkLabelNew.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabelNew.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(175)))), ((int)(((byte)(88)))));
+            this.linkLabelNew.Location = new System.Drawing.Point(79, 38);
+            this.linkLabelNew.Name = "linkLabelNew";
+            this.linkLabelNew.Size = new System.Drawing.Size(79, 13);
+            this.linkLabelNew.TabIndex = 3;
+            this.linkLabelNew.TabStop = true;
+            this.linkLabelNew.Text = "1条新通知：";
+            this.linkLabelNew.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelNew_LinkClicked);
             // 
             // NotificationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(224, 141);
-            this.Controls.Add(this.labelNew);
+            this.Controls.Add(this.linkLabelNew);
             this.Controls.Add(this.linkTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -83,7 +87,7 @@
         #endregion
 
         public System.Windows.Forms.LinkLabel linkTitle;
-        private System.Windows.Forms.Label labelNew;
+        private System.Windows.Forms.LinkLabel linkLabelNew;
 
     }
 }

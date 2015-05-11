@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Net;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace NewsNotificationCenter
 {
@@ -58,15 +59,12 @@ namespace NewsNotificationCenter
                     sw.Write(postData);
                 }
 
+                Debug.WriteLine("NotificationHelper::SetNotified, calling BeginGetResponse", "Info");
                 request.BeginGetResponse(new AsyncCallback(ReadCallback), request);
             }
-            catch (WebException)
+            catch (Exception e)
             {
-                
-            }
-            catch
-            {
-                
+                Debug.WriteLine("NotificationHelper::SetNotified, Exception, " + e.Message, "Error");
             }
         }
 
@@ -75,6 +73,7 @@ namespace NewsNotificationCenter
             var request = (HttpWebRequest)ar.AsyncState;
             var response = (HttpWebResponse)request.EndGetResponse(ar);
             response.Close();
+            Debug.WriteLine("NotificationHelper::ReadCallback, completed successfully", "Info");
         }
     }
 }
