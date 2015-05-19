@@ -133,6 +133,7 @@ namespace NewsNotificationCenter
                 this.txtPassword.Enabled = true;
                 this.btnLogin.Enabled = true;
                 this.Enabled = true;
+                _notifiedList.Clear();
                 Show();
 
                 if (_currentStatus == AppStatus.LoggedIn)

@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationForm));
             this.linkTitle = new System.Windows.Forms.LinkLabel();
             this.linkLabelNew = new System.Windows.Forms.LinkLabel();
+            this._popupTimer = new System.Windows.Forms.Timer(this.components);
+            this._closeTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // linkTitle
@@ -63,6 +66,14 @@
             this.linkLabelNew.Text = "1条新通知：";
             this.linkLabelNew.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelNew_LinkClicked);
             // 
+            // _popupTimer
+            // 
+            this._popupTimer.Tick += new System.EventHandler(this._popupTimer_Tick);
+            // 
+            // _closeTimer
+            // 
+            this._closeTimer.Tick += new System.EventHandler(this._closeTimer_Tick);
+            // 
             // NotificationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,6 +99,8 @@
 
         public System.Windows.Forms.LinkLabel linkTitle;
         private System.Windows.Forms.LinkLabel linkLabelNew;
+        private System.Windows.Forms.Timer _popupTimer;
+        private System.Windows.Forms.Timer _closeTimer;
 
     }
 }

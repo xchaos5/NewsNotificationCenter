@@ -12,8 +12,6 @@ namespace NewsNotificationCenter
 {
     public partial class NotificationForm : Form
     {
-        private Timer _popupTimer = new Timer();
-        private Timer _closeTimer = new Timer();
         private int _currentState, _currentTop;
         private Notification _notification;
         private string MessageTitle = ConfigSettings.GetInstance().MessageTitle;
@@ -83,6 +81,12 @@ namespace NewsNotificationCenter
         {
             try
             {
+                if (this.IsDisposed)
+                {
+                    _popupTimer.Enabled = false;
+                    return;
+                }
+
                 Rectangle WorkAreaRectangle = System.Windows.Forms.Screen.GetWorkingArea(this);
                 if (_currentState == 1)
                 {
@@ -112,9 +116,7 @@ namespace NewsNotificationCenter
                     else
                     {
                         _popupTimer.Enabled = false;
-                        //_popupTimer.Dispose();
                         this.Close();
-                        //this.Dispose();
                     }
                 }
             }
@@ -127,10 +129,15 @@ namespace NewsNotificationCenter
 
         private void _closeTimer_Tick(object sender, EventArgs e)
         {
+            if (this.IsDisposed)
+            {
+                _closeTimer.Enabled = false;
+                return;
+            }
+
             _currentState = 3;
             _popupTimer.Enabled = true;
             _closeTimer.Enabled = false;
-            _closeTimer.Dispose();
         }
 
         private void linkTitle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
