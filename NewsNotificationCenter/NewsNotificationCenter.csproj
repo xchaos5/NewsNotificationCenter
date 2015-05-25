@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ziya_favicon.ico</ApplicationIcon>
+    <ApplicationIcon>ziya.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -118,6 +118,7 @@
   <ItemGroup>
     <Content Include="NewtonJson\Newtonsoft.Json.dll" />
     <Content Include="NewtonJson\Newtonsoft.Json.xml" />
+    <Content Include="ziya.ico" />
     <Content Include="ziya_favicon.ico" />
   </ItemGroup>
   <ItemGroup>

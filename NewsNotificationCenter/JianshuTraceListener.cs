@@ -18,6 +18,12 @@ namespace NewsNotificationCenter
             _fileName = fileName;
             _sessionID = Guid.NewGuid().ToString();
 
+            CreateLogDirectoryIfNecessary();
+        }
+
+        [Conditional("DEBUG")]
+        private void CreateLogDirectoryIfNecessary()
+        {
             if (!Directory.Exists(LogFolderName))
             {
                 Directory.CreateDirectory(LogFolderName);

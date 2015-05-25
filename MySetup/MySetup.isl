@@ -1139,9 +1139,9 @@
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
 		<row><td>DATABASEDIR</td><td>ISYourDataBaseDir</td><td>.</td><td/><td>0</td><td/></row>
-		<row><td>DIRECTORY</td><td>JIANSHU</td><td>ZIYANO~1|Ziya Notification Center</td><td/><td>0</td><td/></row>
-		<row><td>DIRECTORY1</td><td>JIANSHU</td><td>子牙新闻通知系统</td><td/><td>0</td><td/></row>
-		<row><td>DIRECTORY2</td><td>JIANSHU</td><td>子牙信息发布系统</td><td/><td>0</td><td/></row>
+		<row><td>DIRECTORY</td><td>ZIYA</td><td>ZIYANO~1|Ziya Notification Center</td><td/><td>0</td><td/></row>
+		<row><td>DIRECTORY1</td><td>ZIYA</td><td>子牙新闻通知系统</td><td/><td>0</td><td/></row>
+		<row><td>DIRECTORY2</td><td>ZIYA</td><td>子牙信息发布系统</td><td/><td>0</td><td/></row>
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
@@ -1151,9 +1151,8 @@
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
 		<row><td>ISMyProductDir</td><td>ISMyCompanyDir</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>ISYourDataBaseDir</td><td>INSTALLDIR</td><td>Database</td><td/><td>0</td><td/></row>
-		<row><td>JIANSHU</td><td>ProgramFilesFolder</td><td>Jianshu</td><td/><td>0</td><td/></row>
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
-		<row><td>MY_PRODUCT_NAME</td><td>JIANSHU</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
+		<row><td>MY_PRODUCT_NAME</td><td>ZIYA</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
 		<row><td>NetHoodFolder</td><td>TARGETDIR</td><td>.:NetHood</td><td/><td>0</td><td/></row>
 		<row><td>PersonalFolder</td><td>TARGETDIR</td><td>.:Personal</td><td/><td>0</td><td/></row>
@@ -1175,6 +1174,7 @@
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
+		<row><td>ZIYA</td><td>ProgramFilesFolder</td><td>Ziya</td><td/><td>0</td><td/></row>
 		<row><td>jianshu</td><td>ProgramMenuFolder</td><td>Jianshu</td><td/><td>1</td><td/></row>
 	</table>
 
@@ -2653,7 +2653,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>446940819</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>-895231401</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION35</td><td>2052</td><td>Microsoft .NET Framework 3.5 needs to be installed for this installation to continue.</td><td>0</td><td/><td>-501013100</td></row>
@@ -3758,9 +3758,9 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>ID_STRING1</td><td>2052</td><td/><td>0</td><td/><td>-501013100</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>http://www.Jianshu.com</td><td>0</td><td/><td>446940819</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>http://www.Jianshu.com</td><td>0</td><td/><td>-895231401</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Jianshu</td><td>0</td><td/><td>-500982380</td></row>
-		<row><td>ID_STRING3</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>446940819</td></row>
+		<row><td>ID_STRING3</td><td>2052</td><td>Jianshu</td><td>0</td><td/><td>-895231401</td></row>
 		<row><td>ID_STRING4</td><td>2052</td><td>LAUNCH~1.EXE|Launch NewsNotificationCenter.exe</td><td>0</td><td/><td>-501013100</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>NEWSHO~1|NewShortcut2</td><td>0</td><td/><td>312682037</td></row>
 		<row><td>ID_STRING5</td><td>2052</td><td>子牙信~1|子牙信息发布系统</td><td>0</td><td/><td>312690229</td></row>

@@ -36,15 +36,15 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.homePageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newsPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.homePageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newsPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.panel2.SuspendLayout();
@@ -111,7 +111,7 @@
             this.logoutMenuItem,
             this.closeMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(205, 158);
+            this.contextMenuStrip.Size = new System.Drawing.Size(205, 136);
             // 
             // loginMenuItem
             // 
@@ -119,6 +119,30 @@
             this.loginMenuItem.Size = new System.Drawing.Size(204, 22);
             this.loginMenuItem.Text = "登录";
             this.loginMenuItem.Click += new System.EventHandler(this.loginMenuItem_Click);
+            // 
+            // homePageMenuItem
+            // 
+            this.homePageMenuItem.Name = "homePageMenuItem";
+            this.homePageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.homePageMenuItem.Text = "登录子牙官方网站";
+            this.homePageMenuItem.ToolTipText = "www.ziya.gov.cn";
+            this.homePageMenuItem.Click += new System.EventHandler(this.homePageMenuItem_Click);
+            // 
+            // newsPageMenuItem
+            // 
+            this.newsPageMenuItem.Name = "newsPageMenuItem";
+            this.newsPageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.newsPageMenuItem.Text = "登录子牙信息系统";
+            this.newsPageMenuItem.ToolTipText = "news.ziya.gov.cn";
+            this.newsPageMenuItem.Click += new System.EventHandler(this.newsPageMenuItem_Click);
+            // 
+            // reportPageMenuItem
+            // 
+            this.reportPageMenuItem.Name = "reportPageMenuItem";
+            this.reportPageMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.reportPageMenuItem.Text = "登录子牙网上填报系统";
+            this.reportPageMenuItem.ToolTipText = "report.ziya.gov.cn";
+            this.reportPageMenuItem.Click += new System.EventHandler(this.reportPageMenuItem_Click);
             // 
             // logoutMenuItem
             // 
@@ -171,30 +195,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(187, 25);
             this.panel2.TabIndex = 8;
-            // 
-            // homePageMenuItem
-            // 
-            this.homePageMenuItem.Name = "homePageMenuItem";
-            this.homePageMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.homePageMenuItem.Text = "登录子牙官方网站";
-            this.homePageMenuItem.ToolTipText = "www.ziya.gov.cn";
-            this.homePageMenuItem.Click += new System.EventHandler(this.homePageMenuItem_Click);
-            // 
-            // newsPageMenuItem
-            // 
-            this.newsPageMenuItem.Name = "newsPageMenuItem";
-            this.newsPageMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.newsPageMenuItem.Text = "登录子牙信息系统";
-            this.newsPageMenuItem.ToolTipText = "news.ziya.gov.cn";
-            this.newsPageMenuItem.Click += new System.EventHandler(this.newsPageMenuItem_Click);
-            // 
-            // reportPageMenuItem
-            // 
-            this.reportPageMenuItem.Name = "reportPageMenuItem";
-            this.reportPageMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.reportPageMenuItem.Text = "登录子牙网上填报系统";
-            this.reportPageMenuItem.ToolTipText = "report.ziya.gov.cn";
-            this.reportPageMenuItem.Click += new System.EventHandler(this.reportPageMenuItem_Click);
             // 
             // LoginForm
             // 
