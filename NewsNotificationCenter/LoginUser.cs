@@ -90,43 +90,52 @@ namespace NewsNotificationCenter
         private void ReadCallback(IAsyncResult asynchronousResult)
         {
             var request = (HttpWebRequest)asynchronousResult.AsyncState;
-            var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
             try
             {
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                using (var response = (HttpWebResponse) request.EndGetResponse(asynchronousResult))
                 {
-                    var resultString = streamReader.ReadToEnd();
-                    using (JsonTextReader reader = new JsonTextReader(new StringReader(resultString)))
+                    try
                     {
-                        bool isLoggedIn = false;
-                        while (reader.Read())
+                        using (var streamReader = new StreamReader(response.GetResponseStream()))
                         {
-                            if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "id")
+                            var resultString = streamReader.ReadToEnd();
+                            using (JsonTextReader reader = new JsonTextReader(new StringReader(resultString)))
                             {
-                                ID = reader.ReadAsInt32() ?? 0;
-                            }
+                                bool isLoggedIn = false;
+                                while (reader.Read())
+                                {
+                                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "id")
+                                    {
+                                        ID = reader.ReadAsInt32() ?? 0;
+                                    }
 
-                            if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "token")
-                            {
-                                Token = reader.ReadAsString();
-                                isLoggedIn = true;
+                                    if (reader.TokenType == JsonToken.PropertyName && reader.Value.ToString() == "token")
+                                    {
+                                        Token = reader.ReadAsString();
+                                        isLoggedIn = true;
+                                    }
+                                }
+                                IsLoggedIn = isLoggedIn;
+                                Error = String.Empty;
                             }
                         }
-                        IsLoggedIn = isLoggedIn;
-                        Error = String.Empty;
+                        Debug.WriteLine("LoginUser::ReadCallback, completed successfully", "Info");
+                    }
+                    catch (Exception e)
+                    {
+                        Error = "获取服务器反馈时发生了异常";
+                        Debug.WriteLine("LoginUser::ReadCallback, Exception, " + e.Message, "Error");
+                    }
+                    finally
+                    {
+                        response.Close();
+                        LoginStatusChanged(this, null);
                     }
                 }
-                Debug.WriteLine("LoginUser::ReadCallback, completed successfully", "Info");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Error = "获取服务器反馈时发生了异常";
-                Debug.WriteLine("LoginUser::ReadCallback, Exception, " + e.Message, "Error");
-            }
-            finally
-            {
-                response.Close();
-                LoginStatusChanged(this, null);
+                Debug.WriteLine("LoginUser::ReadCallback, EndGetResponse Exception, " + ex.Message, "Error");
             }
         }
     }

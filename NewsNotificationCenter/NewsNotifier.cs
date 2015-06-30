@@ -137,29 +137,38 @@ namespace NewsNotificationCenter
 
         private void ReadCallback(IAsyncResult asynchronousResult)
         {
-            var request = (HttpWebRequest)asynchronousResult.AsyncState;
-            var response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
+            var request = (HttpWebRequest) asynchronousResult.AsyncState;
             try
             {
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                using (var response = (HttpWebResponse) request.EndGetResponse(asynchronousResult))
                 {
-                    var resultString = streamReader.ReadToEnd();
+                    try
+                    {
+                        using (var streamReader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var resultString = streamReader.ReadToEnd();
 
-                    List<MyMessage> messages = GetMessages(resultString);
-                    List<Post> posts = GetPosts(resultString);
+                            List<MyMessage> messages = GetMessages(resultString);
+                            List<Post> posts = GetPosts(resultString);
 
-                    NewsNotifierEventArgs e = new NewsNotifierEventArgs(messages, posts);
-                    NewsArrived(this, e);
+                            NewsNotifierEventArgs e = new NewsNotifierEventArgs(messages, posts);
+                            NewsArrived(this, e);
+                        }
+                        Debug.WriteLine("NewsNotifier::ReadCallback, completed successfully", "Info");
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("NewsNotifier::ReadCallback, Exception, " + e.Message, "Error");
+                    }
+                    finally
+                    {
+                        response.Close();
+                    }
                 }
-                Debug.WriteLine("NewsNotifier::ReadCallback, completed successfully", "Info");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine("NewsNotifier::ReadCallback, Exception, " + e.Message, "Error");
-            }
-            finally
-            {
-                response.Close();
+                Debug.WriteLine("NewsNotifier::ReadCallback, EndGetResponse Exception, " + ex.Message, "Error");
             }
         }
 

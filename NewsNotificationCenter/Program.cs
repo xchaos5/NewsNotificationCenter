@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace NewsNotificationCenter
@@ -23,6 +24,15 @@ namespace NewsNotificationCenter
         [STAThread]
         static void Main()
         {
+            // Add the event handler for handling UI thread exceptions to the event.
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+
+            // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+            // Add the event handler for handling non-UI thread exceptions to the event. 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             Process instance = RunningInstance();
             if (instance == null)
             {
@@ -45,6 +55,17 @@ namespace NewsNotificationCenter
                 // Already launched
                 HandleRunningInstance(instance);
             }
+        }
+
+        private static void UIThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            Debug.WriteLine("Unhandled Exception, " + e.Exception.Message, "Error");
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            Debug.WriteLine("Unhandled Exception, " + ex.Message, "Error");
         }
 
         private static Process RunningInstance()
